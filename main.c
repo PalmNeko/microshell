@@ -91,7 +91,7 @@ int pipeline(char *argv[])
         argv++;
     }
     argv = head;
-    if (has_pipe == false && strcmp("cd", argv[0]) == 0)
+    if (has_pipe == false && strcmp(argv[0], "cd") == 0)
         return run_command(argv);
     else
         return multi_process_pipeline(argv);
@@ -115,6 +115,7 @@ pid_t run_multi_process_pipeline(char *argv[])
     pid_t last_pid;
     char **head;
 
+    last_pid = -1;
     head = argv;
     while (*argv != NULL)
     {
@@ -147,8 +148,8 @@ pid_t run_with_fork(char *argv[], bool use_pipe)
         if (use_pipe)
         {
             fatal(dup2(pipefds[1], 1), exit(1));
-            fatal(close(pipefds[1]), exit(1));
             fatal(close(pipefds[0]), exit(1));
+            fatal(close(pipefds[1]), exit(1));
         }
         fatal(close(stdin_fd), exit(1));
         status = run_command(argv);
