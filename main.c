@@ -64,13 +64,10 @@ int list(char *argv[])
             fatal(dup2(stdin_fd, 0), return 1);
             head = argv + 1;
         }
-        ft_putstr_fd(2, "hogesample\n");
         argv++;
     }
-    ft_putstr_fd(2, "hogesample\n");
     if (head != argv)
     {
-        ft_putstr_fd(2, "hogesample\n");
         status = pipeline(head);
         pass_fatal(status, return 1);
     }
@@ -94,7 +91,7 @@ int pipeline(char *argv[])
         argv++;
     }
     argv = head;
-    if (has_pipe == false)
+    if (has_pipe == false && strcmp("cd", argv[0]) == 0)
         return run_command(argv);
     else
         return multi_process_pipeline(argv);
@@ -196,10 +193,11 @@ int run_command(char *argv[])
         return (0);
     if (strcmp(argv[0], "cd") == 0)
         return cd_command(argv + 1);
-    fatal(execve(argv[0], argv, env), ;);
-    ft_putstr_fd(2, "execve失敗しました: ");
-    ft_putstr_fd(2, argv[0]);
-    ft_putstr_fd(2, "\n");
+    fatal(execve(argv[0], argv, env), {
+        ft_putstr_fd(2, "execve失敗しました: ");
+        ft_putstr_fd(2, argv[0]);
+        ft_putstr_fd(2, "\n");
+    });
     return (1);
 }
 
